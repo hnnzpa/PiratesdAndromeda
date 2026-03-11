@@ -9,9 +9,12 @@
 
     <!-- Textos del Login -->
     <string name="login">LOGIN</string>
+    <string name="signUp">SIGN UP</string>
     <string name="usuari">Usuari</string>
+    <string name="correo">Correu</string>
     <string name="hint_usuari">Introduce tu usuario</string>
     <string name="contrasenya">Contrasenya</string>
+    <string name="repContrasenya">Repeteix contrasenya</string>
     <string name="hint_contrasenya">Introduce tu contraseña</string>
 
     <!-- Botones -->
