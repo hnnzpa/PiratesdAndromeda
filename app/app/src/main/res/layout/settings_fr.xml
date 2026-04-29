@@ -21,10 +21,10 @@
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/btn_icon_circle"
-            android:contentDescription="@string/cd_back"
+            android:contentDescription="@string/cd_cancel"
             android:padding="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_close"
             app:tint="@color/blanco"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
