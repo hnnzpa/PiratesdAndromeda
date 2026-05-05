@@ -66,7 +66,8 @@
     <string name="empty_rooms_message">Cap habitació. Afegeix sales a la nau!</string>
     <string name="error_empty_ship_name">El nom de la nau no pot estar buit</string>
     <string name="error_ship_name_too_long">El nom és massa llarg (màx. 50 caràcters)</string>
-    <string name="error_empty_room_name">El nom de l’habitació no pot estar buit</string>
+    <string name="error_empty_room_name">El nom de l'habitació no pot estar buit</string>
+    <string name="error_empty_code">El codi de partida no pot estar buit</string>
     <string name="ship_deleted_ok">&quot;%1$s&quot; eliminada</string>
     <string name="room_deleted_ok">Habitació &quot;%1$s&quot; eliminada</string>
     <string name="ship_room_count_format">%1$d habitacions</string>
@@ -84,7 +85,7 @@
     <string name="delete_ship_dialog_title">Confirma l’eliminacio</string>
     <string name="delete_ship_dialog_message">Segur que vols eliminar &quot;%1$s&quot;?</string>
     <string name="delete_ship_dialog_confirm">Acceptar</string>
-    <string name="delete_ship_dialog_cancel">Cancel·la</string>
+    <string name="delete_ship_dialog_cancel">Cancel.la</string>
 
     <!-- Settings -->
     <string name="settings_title">Configuració</string>
@@ -117,5 +118,16 @@
     <string name="home_game_code_hint">Codi de partida</string>
     <string name="home_search_button">Cercar</string>
     <string name="home_start_game_button">Comencar una partida nova</string>
+
+    <!-- Menú del Juego -->
+    <string name="game_menu_title">AAARR!\nLa batalla comença!</string>
+    <string name="nav_camarotes">CAMAROTES</string>
+    <string name="nav_camarotes_cd">Veure els camarotes</string>
+    <string name="nav_labores">LABORES</string>
+    <string name="nav_labores_cd">Veure les labores</string>
+    <string name="nav_reunirse">REUNIR-SE</string>
+    <string name="nav_reunirse_cd">Reunir-se amb l'equip</string>
+    <string name="nav_soltar_armas">SOLTAR ARMES</string>
+    <string name="nav_soltar_armas_cd">Soltar armes i acabar</string>
 
 </resources>

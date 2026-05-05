@@ -11,9 +11,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import cat.hajoya.piratasdeandromeda.R
 import cat.hajoya.piratasdeandromeda.databinding.EstadoPartPersonalBinding
+import cat.hajoya.piratasdeandromeda.ui.main.MainActivity
+import cat.hajoya.piratasdeandromeda.viewmodels.GameViewModel
 
 class EstadoPartPersonalFragment : Fragment() {
 
@@ -21,6 +24,9 @@ class EstadoPartPersonalFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val adapter = PlayerStatusAdapter(::showPlayerInfoDialog)
+    private val viewModel: GameViewModel by activityViewModels {
+        (requireActivity() as MainActivity).gameViewModelFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +41,7 @@ class EstadoPartPersonalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        observeViewModel()
         setupStaticUi()
     }
 
@@ -56,8 +63,14 @@ class EstadoPartPersonalFragment : Fragment() {
         )
     }
 
+    private fun observeViewModel() {
+        viewModel.partidaActual.observe(viewLifecycleOwner) { partida ->
+            val code = partida?.codiPartida ?: "-"
+            binding.tvGameCode.text = getString(R.string.game_code_value_format, code)
+        }
+    }
+
     private fun setupStaticUi() {
-        binding.tvGameCode.text = "Partida: 000HHH000"
         binding.tvTimeRemaining.text = "Tiempo restante: 09:42"
 
         binding.btnClose.setOnClickListener { parentFragmentManager.popBackStack() }

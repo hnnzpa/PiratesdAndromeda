@@ -101,7 +101,41 @@ class StartPartidaFragment : Fragment() {
         }
 
         binding.btnUnirme.setOnClickListener {
-            openPersonatgesScreen()
+            val codigoPartida = binding.edUnirseCode.text?.toString().orEmpty().trim()
+            if (codigoPartida.isEmpty()) {
+                binding.edUnirseCode.error = getString(R.string.error_empty_code)
+                binding.edUnirseCode.requestFocus()
+                return@setOnClickListener
+            }
+            
+            // Deshabilitar botón mientras se une a la partida
+            binding.btnUnirme.isEnabled = false
+            
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val result = viewModel.joinGame(codigoPartida)
+                    result
+                        .onSuccess { wsCode ->
+                            binding.edUnirseCode.text?.clear()
+                            openPersonatgesScreen()
+                        }
+                        .onFailure { error ->
+                            binding.btnUnirme.isEnabled = true
+                            Snackbar.make(
+                                binding.root,
+                                error.message ?: "No se pudo unir a la partida",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                } catch (e: Exception) {
+                    binding.btnUnirme.isEnabled = true
+                    Snackbar.make(
+                        binding.root,
+                        "Error: ${e.message}",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 

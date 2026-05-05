@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cat.hajoya.piratasdeandromeda.databinding.PersonajesPartidaBinding
+import cat.hajoya.piratasdeandromeda.ui.joc.MenuJuegoFragment
 
 class PersonajesPartidaFragment : Fragment() {
 
@@ -27,6 +28,23 @@ class PersonajesPartidaFragment : Fragment() {
         binding.btnCancel.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+
+        // Navegar al menú del juego al hacer click en "Comenzar"
+        binding.btnEmpezar.setOnClickListener {
+            navigateToGameMenu()
+        }
+    }
+
+    /**
+     * Navega al menú del juego reemplazando este fragment
+     */
+    private fun navigateToGameMenu() {
+        val menuJuegoFragment = MenuJuegoFragment()
+        
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, menuJuegoFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {

@@ -66,13 +66,13 @@ class AuthViewModel(
                 _authState.postValue(AuthState.SUCCESS)
                 _errorMessage.postValue(null)
                 persistSession(user)
-            } catch (e: SocketTimeoutException) {
+            } catch (_: SocketTimeoutException) {
                 _authState.postValue(AuthState.ERROR)
-                _errorMessage.postValue("La API no responde a tiempo. Revisa que el backend esté levantado y accesible en 10.0.2.2:8000.")
+                _errorMessage.postValue("La API no responde a tiempo. Revisa tu conexión a internet o que el servidor esté disponible.")
                 _currentUser.postValue(null)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _authState.postValue(AuthState.ERROR)
-                _errorMessage.postValue("Error en login: ${e.message ?: "Desconocido"}")
+                _errorMessage.postValue("Error en login: Desconocido")
                 _currentUser.postValue(null)
             }
         }
@@ -117,13 +117,13 @@ class AuthViewModel(
                 _authState.postValue(AuthState.SUCCESS)
                 _errorMessage.postValue(null)
                 persistSession(user)
-            } catch (e: SocketTimeoutException) {
+            } catch (_: SocketTimeoutException) {
                 _authState.postValue(AuthState.ERROR)
-                _errorMessage.postValue("La API no responde a tiempo. Revisa que el backend esté levantado y accesible en 10.0.2.2:8000.")
+                _errorMessage.postValue("La API no responde a tiempo. Revisa tu conexión a internet o que el servidor esté disponible.")
                 _currentUser.postValue(null)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _authState.postValue(AuthState.ERROR)
-                _errorMessage.postValue("Error en registro: ${e.message ?: "Desconocido"}")
+                _errorMessage.postValue("Error en registro: Desconocido")
                 _currentUser.postValue(null)
             }
         }

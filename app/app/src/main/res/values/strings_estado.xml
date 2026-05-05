@@ -18,5 +18,6 @@
     <string name="player_info_name_value">Nom: %1$s</string>
     <string name="player_info_email_value">Correu: %1$s</string>
     <string name="player_info_close">Tancar</string>
+     <!-- nav_* moved to main strings.xml to avoid duplication -->
 </resources>
 

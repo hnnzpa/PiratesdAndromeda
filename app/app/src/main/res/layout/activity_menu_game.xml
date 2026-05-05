@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundbasic"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Title: Set in Fragment via buildSpannedString for mixed colors -->
+        <TextView
+            android:id="@+id/tvHeroTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="48dp"
+            android:textAppearance="@style/TextAppearance.Piratas.Title"
+            android:importantForAccessibility="yes"
+            android:labelFor="@id/scrollContainer"
+            tools:text="Corsario, eres parte de esta tripulación!"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Vertical container for buttons for better organization -->
+        <LinearLayout
+            android:id="@+id/scrollContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintTop_toBottomOf="@id/tvHeroTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCamarotes"
+                style="@style/Widget.PiratasDeAndromeda.PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/nav_camarotes"
+                android:contentDescription="@string/nav_camarotes_cd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLabores"
+                style="@style/Widget.PiratasDeAndromeda.PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/nav_labores"
+                android:contentDescription="@string/nav_labores_cd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReunirse"
+                style="@style/Widget.PiratasDeAndromeda.PrimaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/nav_reunirse"
+                android:contentDescription="@string/nav_reunirse_cd" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSoltarArmas"
+                style="@style/Widget.PiratasDeAndromeda.SecondaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/nav_soltar_armas"
+                android:contentDescription="@string/nav_soltar_armas_cd" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -9,6 +9,7 @@ import cat.hajoya.piratasdeandromeda.R
 import cat.hajoya.piratasdeandromeda.databinding.ActivityMainBinding
 import cat.hajoya.piratasdeandromeda.data.local.AppDatabase
 import cat.hajoya.piratasdeandromeda.data.local.SessionManager
+import cat.hajoya.piratasdeandromeda.data.repository.GameRepository
 import cat.hajoya.piratasdeandromeda.data.repository.ShipRepository
 import cat.hajoya.piratasdeandromeda.ui.preparacio.StartPartidaFragment
 import cat.hajoya.piratasdeandromeda.viewmodels.SettingsViewModelFactory
@@ -19,12 +20,13 @@ class MainActivity : AppCompatActivity() {
     internal val sessionManager by lazy { SessionManager(applicationContext) }
     internal val gameViewModelFactory: ViewModelProvider.Factory by lazy {
         val db = AppDatabase.getInstance(applicationContext)
-        val repo = ShipRepository(db.shipDao(), db.roomDao())
+        val shipRepo = ShipRepository(db.shipDao(), db.roomDao())
+        val gameRepo = GameRepository.getInstance(applicationContext)
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(cat.hajoya.piratasdeandromeda.viewmodels.GameViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
-                    return cat.hajoya.piratasdeandromeda.viewmodels.GameViewModel(repo, sessionManager) as T
+                    return cat.hajoya.piratasdeandromeda.viewmodels.GameViewModel(shipRepo, gameRepo, sessionManager) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel class")
             }

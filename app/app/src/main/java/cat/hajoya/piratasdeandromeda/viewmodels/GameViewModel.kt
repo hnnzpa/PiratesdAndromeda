@@ -7,6 +7,10 @@ import androidx.lifecycle.viewModelScope
 import cat.hajoya.piratasdeandromeda.RoomItem
 import cat.hajoya.piratasdeandromeda.SavedShip
 import cat.hajoya.piratasdeandromeda.data.local.SessionManager
+import cat.hajoya.piratasdeandromeda.data.model.HabitacionBase
+import cat.hajoya.piratasdeandromeda.data.model.PartidaJoinRequest
+import cat.hajoya.piratasdeandromeda.data.model.PartidaPedido
+import cat.hajoya.piratasdeandromeda.data.repository.GameRepository
 import cat.hajoya.piratasdeandromeda.data.repository.ShipRepository
 import cat.hajoya.piratasdeandromeda.models.ConfigPartida
 import cat.hajoya.piratasdeandromeda.models.Dificultad
@@ -23,6 +27,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -31,6 +36,7 @@ import kotlinx.coroutines.launch
 @Suppress("unused")
 class GameViewModel(
     private val shipRepository: ShipRepository,
+    private val gameRepository: GameRepository,
     private val sessionManager: SessionManager,
 ) : ViewModel() {
 
@@ -168,6 +174,44 @@ class GameViewModel(
         _habitacionsPartida.value = habitaciones
     }
 
+    suspend fun createGameFromSelectedShip(): Result<String> {
+        val shipId = _selectedShipId.value
+            ?: return Result.failure(IllegalStateException("Selecciona una nave antes de continuar"))
+
+        val userId = sessionManager.userId.first()
+            ?: return Result.failure(IllegalStateException("No hay sesión activa. Inicia sesión de nuevo"))
+
+        val selectedRooms = shipRepository.getRoomsForShip(shipId).first()
+        if (selectedRooms.isEmpty()) {
+            return Result.failure(IllegalStateException("Añade al menos una habitación antes de crear la partida"))
+        }
+
+        val shipName = savedShips.value.firstOrNull { it.id == shipId }?.name
+        val request = PartidaPedido(
+            idCreador = userId,
+            nombrePartida = shipName,
+            presencial = false,
+            habitaciones = selectedRooms.map { HabitacionBase(nombre = it.name) },
+        )
+
+        return gameRepository.createGame(request).map { response ->
+            val partida = Partida(
+                id = response.idPartida,
+                codiPartida = response.codigoPartida,
+                nomPartida = shipName,
+                presencial = false,
+                estatPartida = EstatPartida.ESPERANT_JUGADORS,
+                numJugadors = 1,
+                numImpostors = 1,
+                tempsLimitMinuts = 10,
+                percentatgeReparacio = 0f,
+                dificultad = Dificultad.MITJA,
+            )
+            _partidaActual.postValue(partida)
+            response.codigoPartida
+        }
+    }
+
     fun addSavedShip(name: String) {
         val trimmed = name.trim()
         if (trimmed.isEmpty()) return
@@ -202,6 +246,33 @@ class GameViewModel(
     fun deleteRoom(roomId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             shipRepository.deleteRoom(roomId)
+        }
+    }
+
+    suspend fun joinGame(codigoPartida: String): Result<String> {
+        val userId = sessionManager.userId.first()
+            ?: return Result.failure(IllegalStateException("No hay sesión activa. Inicia sesión de nuevo"))
+
+        val request = PartidaJoinRequest(
+            codigoPartida = codigoPartida,
+            idJugador = userId
+        )
+
+        return gameRepository.joinGame(request).map { response ->
+            val partida = Partida(
+                id = 1,
+                codiPartida = codigoPartida,
+                nomPartida = response.nombrePartida ?: "Partida",
+                presencial = false,
+                estatPartida = EstatPartida.ESPERANT_JUGADORS,
+                numJugadors = 1,
+                numImpostors = 1,
+                tempsLimitMinuts = 10,
+                percentatgeReparacio = 0f,
+                dificultad = Dificultad.MITJA,
+            )
+            _partidaActual.postValue(partida)
+            response.wsCode
         }
     }
 }

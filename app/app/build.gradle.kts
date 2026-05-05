@@ -30,8 +30,8 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_HTTP_URL", "\"http://10.0.2.2:8000/\"")
-            buildConfigField("String", "BASE_WS_URL", "\"ws://10.0.2.2:8000\"")
+            buildConfigField("String", "BASE_HTTP_URL", "\"https://api.piratasandromeda.me/\"")
+            buildConfigField("String", "BASE_WS_URL", "\"wss://api.piratasandromeda.me\"")
         }
         release {
             isMinifyEnabled = false

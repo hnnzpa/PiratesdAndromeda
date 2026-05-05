@@ -62,11 +62,27 @@ class ConfigHabitacionsFragment : Fragment() {
 
     private fun setupListeners() {
         binding.btnCancel.setOnClickListener {
+            // Desseleccionar la nave antes de volver
+            viewModel.selectShip(null)
             parentFragmentManager.popBackStack()
         }
 
         binding.btnSiguiente.setOnClickListener {
-            openPersonatgesScreen()
+            binding.btnSiguiente.isEnabled = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                val result = viewModel.createGameFromSelectedShip()
+                binding.btnSiguiente.isEnabled = true
+
+                result
+                    .onSuccess { openPersonatgesScreen() }
+                    .onFailure { error ->
+                        Snackbar.make(
+                            binding.root,
+                            error.message ?: "No se pudo crear la partida",
+                            Snackbar.LENGTH_LONG,
+                        ).show()
+                    }
+            }
         }
 
         binding.btnAddRoom.setOnClickListener {
